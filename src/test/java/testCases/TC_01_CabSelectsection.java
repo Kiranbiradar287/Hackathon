@@ -10,6 +10,17 @@ import utilities.Excel_Output;
 public class TC_01_CabSelectsection extends BaseClass {
       String carN;
       String carP;
+      @Test (priority=0)
+      public void popupClick() throws InterruptedException {
+    	  Cabselectpage hm=new Cabselectpage(driver);
+    	  Thread.sleep(5000);
+    	  try {driver.switchTo().frame("webklipper-publisher-widget-container-notification-frame");
+    		  hm.popupC().click();
+    		  }
+    	  catch(Exception e) {
+    		  
+    	  }
+      }
 	@Test (priority=1)
 	 public void carSelect1() throws InterruptedException {
 		//logger
@@ -68,9 +79,10 @@ public class TC_01_CabSelectsection extends BaseClass {
 		 logger.info("click on searchbutton");
 	 }
 	 @Test (priority=7)
-	 public void suvSelect1() {
+	 public void suvSelect1() throws InterruptedException {
 		 Cabselectpage hm=new Cabselectpage(driver);
 		 hm.suvSelcet();
+		 Thread.sleep(5000);
 		 
 		 //logger
 		 logger.info("click on SUV type car");

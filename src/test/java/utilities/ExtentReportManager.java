@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
-import testCases.Makemy_trip;
+import testBase.BaseClass;
 
 
 public class ExtentReportManager implements ITestListener {
@@ -28,7 +29,7 @@ public class ExtentReportManager implements ITestListener {
 			
 		sparkReporter=new ExtentSparkReporter(System.getProperty("user.dir")+ "/extentreports/myReport.html");//specify location of the report
 		
-		sparkReporter.config().setDocumentTitle("Automation Report"); // TiTle of report
+		sparkReporter.config().setDocumentTitle("Hackthon_Automation Report"); // TiTle of report
 		sparkReporter.config().setReportName("Functional Testing"); // name of the report
 		sparkReporter.config().setTheme(Theme.STANDARD);
 		
@@ -37,9 +38,17 @@ public class ExtentReportManager implements ITestListener {
 		
 		extent.setSystemInfo("Computer Name","localhost");
 		extent.setSystemInfo("Environment","QA");
-		extent.setSystemInfo("Tester Name","Tester");
-		extent.setSystemInfo("os","Windows11");
-		extent.setSystemInfo("Browser name","Chrome");
+		extent.setSystemInfo("Tester Name","Kiran B");
+		//extent.setSystemInfo("os","Windows11");
+		//extent.setSystemInfo("Browser name","Chrome");
+		
+		String os= context.getCurrentXmlTest().getParameter("os");
+		extent.setSystemInfo("operating system", os);
+		
+		String browser =context.getCurrentXmlTest().getParameter("Browser");
+		extent.setSystemInfo("Browser", browser);
+		
+		
 					
 	}
 
@@ -48,7 +57,7 @@ public class ExtentReportManager implements ITestListener {
 		
 		test = extent.createTest(result.getName()); // create a new enty in the report
 		test.log(Status.PASS, "Test case PASSED is:" + result.getName()); // update status p/f/s
-		File scrFile = ((TakesScreenshot)Makemy_trip.driver).getScreenshotAs(OutputType.FILE);
+		File scrFile = ((TakesScreenshot)BaseClass.driver).getScreenshotAs(OutputType.FILE);
 		//The below method will save the screen shot in d drive with name "screenshot.png"
 		File screenShotName = new File(System.getProperty("user.dir")+"\\screenshots\\"+result.getName()+".png");
 		try {
@@ -66,7 +75,7 @@ public class ExtentReportManager implements ITestListener {
 		test.log(Status.FAIL, "Test case FAILED is:" + result.getName());
 		test.log(Status.FAIL, "Test Case FAILED cause is: " + result.getThrowable());
 		
-		File scrFile = ((TakesScreenshot)Makemy_trip.driver).getScreenshotAs(OutputType.FILE);
+		File scrFile = ((TakesScreenshot)BaseClass.driver).getScreenshotAs(OutputType.FILE);
 		//The below method will save the screen shot in d drive with name "screenshot.png"
 		File screenShotName = new File(System.getProperty("user.dir")+"\\screenshots\\"+result.getName()+".png");
 		try {
@@ -89,6 +98,14 @@ public class ExtentReportManager implements ITestListener {
 	public void onFinish(ITestContext context) {
 		
 		extent.flush();
+		String pathOfExtentReport = System.getProperty("user.dir")+"/extentreports/myReport.html";
+		File extentReport = new File(pathOfExtentReport);
+		
+		try {
+			Desktop.getDesktop().browse(extentReport.toURI());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

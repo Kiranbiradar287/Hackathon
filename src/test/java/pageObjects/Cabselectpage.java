@@ -13,6 +13,8 @@ public class Cabselectpage extends BasePage {
 	}
 
 //locator
+ @FindBy(xpath="//a[@id='webklipper-publisher-widget-container-notification-close-div']")
+ WebElement popup;
  @FindBy(xpath="//*[@class = 'menu_Cabs']")
  WebElement carSelect;
  
@@ -42,11 +44,16 @@ public class Cabselectpage extends BasePage {
  
  @FindBy(xpath="//span[@class='latoBlack font20 appendRight5']")
  List<WebElement> carname;
+  
  
  @FindBy(xpath="//p[@class='font28 latoBlack blackText ']")
  List<WebElement> carprice;
  
  //Actions
+ 
+ public WebElement popupC() {
+	return popup;
+ }
  
  public void carClick() throws InterruptedException {
 	 Thread.sleep(3000);
@@ -91,8 +98,10 @@ public class Cabselectpage extends BasePage {
 	 return carname;
  }
  
+ 
  public List<WebElement> carpriceP() {
 	 return carprice;
  }
+ 
 
 }

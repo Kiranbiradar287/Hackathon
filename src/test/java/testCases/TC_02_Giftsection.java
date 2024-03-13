@@ -31,9 +31,10 @@ public class TC_02_Giftsection extends BaseClass {
 
 	 public void deatils() {
 		 GiftPage gf=new GiftPage(driver);
-		 gf.senderDetail("Ganapatrao Apate");
-		 gf.mobileN("9876543210");
-		 gf.mailE("abate.com");
+		 gf.senderDetail(randomString());
+		 gf.mobileN(randomNumber());
+		 gf.mailE(randomAlphanumeric());
+		// System.out.println(gf.senderDetail(randomString()););
 		 
 		 //logger
 		 logger.info("enter the user details");

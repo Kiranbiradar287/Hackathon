@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Properties;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Platform;
@@ -12,7 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.*;
 import org.testng.annotations.BeforeTest;
  
 public class BaseClass {
@@ -20,11 +22,11 @@ public class BaseClass {
 	 public static WebDriver driver;
 	 static public Properties p;
 	 public Logger logger=LogManager.getLogger(this.getClass());
-
-	 
+   
 	
 	@BeforeTest
-	public void setup() throws IOException {
+	@Parameters({"os","Browser"})
+	public void setup(String os,String br) throws IOException {
 	
 		
  
@@ -32,11 +34,8 @@ public class BaseClass {
 		FileReader file=new FileReader(".//src//test//resources//config.properties");
 		p=new Properties();
 	    p.load(file);
-	    String os="windows";
-		String Browser="chrome";
-		
-		
-		
+	  
+	    
 		if(p.getProperty("execution_env").equalsIgnoreCase("remote"))
 	 	{	
 		DesiredCapabilities capabilities=new DesiredCapabilities();
@@ -55,7 +54,7 @@ public class BaseClass {
 			return;
 		}
 		//browser
-		switch(Browser.toLowerCase())
+		switch(br.toLowerCase())
 		{
 		case "chrome" : capabilities.setBrowserName("chrome"); break;
 		case "edge" : capabilities.setBrowserName("MicrosoftEdge"); break;
@@ -67,7 +66,7 @@ public class BaseClass {
 	
 		else if(p.getProperty("execution_env").equalsIgnoreCase("local")) {
  
-		switch(Browser.toLowerCase()) {
+		switch(br.toLowerCase()) {
 		case "chrome":driver=new ChromeDriver();
 		break;
 		case "edge":driver=new EdgeDriver();
@@ -86,6 +85,27 @@ public class BaseClass {
 	@AfterTest
 	public void teardown() {
 		driver.quit();
+	}
+	
+	
+	//random String generate
+	public String randomString() {
+	String generateString=RandomStringUtils.randomAlphabetic(7);
+	return generateString;
+	}
+	
+	//random number generate
+	public String randomNumber() {
+		String generateNumber=RandomStringUtils.randomNumeric(10);
+		return generateNumber;
+	}
+	
+	
+	//random alphanumeric generate
+	public String randomAlphanumeric() {
+		String str=RandomStringUtils.randomAlphabetic(7);
+		String num=RandomStringUtils.randomNumeric(3);
+		return (str+num);
 	}
  
 }
